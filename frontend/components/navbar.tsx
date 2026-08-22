@@ -1,34 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./logo";
 
-const NAV_LINKS = ["Compare", "Apps", "How It Works", "Savings", "Help"];
+const NAV_LINKS = [
+  { label: "Compare", href: "/#how-it-works" },
+  { label: "Apps", href: "/#apps" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Savings", href: "/#features" },
+  { label: "Help", href: "/login" },
+];
 
 const sheetEaseIn = [0.22, 1, 0.36, 1] as const;
 const sheetEaseOut = [0.55, 0, 1, 0.45] as const;
 
-function PillButton({
-  label,
-  variant,
-}: {
-  label: string;
-  variant: "accent" | "muted";
-}) {
-  const styles =
-    variant === "accent"
-      ? "bg-[#7342E2] text-white hover:shadow-[0_6px_20px_rgba(115,66,226,0.35)]"
-      : "bg-[#F2F2EE] text-[#192837]";
-
-  return (
-    <button
-      className={`text-sm font-semibold px-5 py-2.5 rounded-full transition-shadow active:scale-95 ${styles}`}
-    >
-      {label}
-    </button>
-  );
+function pillStyles(variant: "accent" | "muted") {
+  return variant === "accent"
+    ? "bg-[#7342E2] text-white hover:shadow-[0_6px_20px_rgba(115,66,226,0.35)]"
+    : "bg-[#F2F2EE] text-[#192837]";
 }
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
@@ -78,8 +70,8 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
         <nav className="flex flex-col gap-1 px-3 py-6">
           {NAV_LINKS.map((link, i) => (
             <motion.a
-              key={link}
-              href="#"
+              key={link.label}
+              href={link.href}
               className="rounded-xl px-3 py-3 hover:bg-black/10"
               style={{ fontSize: "1.1rem" }}
               initial={{ x: 24, opacity: 0 }}
@@ -91,18 +83,28 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
               }}
               onClick={onClose}
             >
-              {link}
+              {link.label}
             </motion.a>
           ))}
         </nav>
 
         <div className="mt-auto flex flex-col gap-3 px-6 pb-8">
-          <button className="w-full rounded-full bg-[#7342E2] py-3.5 text-white" style={{ fontSize: "0.95rem" }}>
+          <Link
+            href="/login"
+            onClick={onClose}
+            className={`w-full rounded-full bg-[#7342E2] py-3.5 text-center text-white ${pillStyles("accent")}`}
+            style={{ fontSize: "0.95rem" }}
+          >
             Start For Free
-          </button>
-          <button className="w-full rounded-full bg-[#F2F2EE] py-3.5 text-[#192837]" style={{ fontSize: "0.95rem" }}>
+          </Link>
+          <Link
+            href="/login"
+            onClick={onClose}
+            className={`w-full rounded-full bg-[#F2F2EE] py-3.5 text-center text-[#192837]`}
+            style={{ fontSize: "0.95rem" }}
+          >
             Sign In
-          </button>
+          </Link>
         </div>
       </motion.aside>
     </AnimatePresence>
@@ -119,25 +121,35 @@ export function Navbar() {
         style={{ maxWidth: "1280px", margin: "0 auto" }}
       >
         <div className="flex w-full items-center justify-between px-5 py-4 sm:px-8 sm:py-5">
-          <a href="#" aria-label="QuickCompare home">
+          <Link href="/" aria-label="QuickCompare home">
             <Logo />
-          </a>
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link}
-                href="#"
+              <Link
+                key={link.label}
+                href={link.href}
                 className="text-sm font-medium text-[#192837] transition-opacity hover:opacity-70"
               >
-                {link}
-              </a>
+                {link.label}
+              </Link>
             ))}
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <PillButton label="Start For Free" variant="accent" />
-            <PillButton label="Sign In" variant="muted" />
+            <Link
+              href="/login"
+              className={`text-sm font-semibold px-5 py-2.5 rounded-full transition-shadow active:scale-95 ${pillStyles("accent")}`}
+            >
+              Start For Free
+            </Link>
+            <Link
+              href="/login"
+              className={`text-sm font-semibold px-5 py-2.5 rounded-full transition-shadow active:scale-95 ${pillStyles("muted")}`}
+            >
+              Sign In
+            </Link>
           </div>
 
           <button

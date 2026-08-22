@@ -124,7 +124,7 @@ export function CallToAction() {
         Free to use. No account needed for your first comparison.
       </p>
       <a
-        href="#"
+        href="/login"
         className="mt-10 inline-block rounded-full bg-[#7342E2] px-10 py-4 text-lg font-bold text-white transition-shadow hover:shadow-[0_8px_32px_rgba(115,66,226,0.35)]"
       >
         Compare prices now

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   ArrowRightCircle,
   Zap,
@@ -31,6 +32,8 @@ const inlineIcon = {
 };
 
 export function Hero() {
+  const router = useRouter();
+
   return (
     <section className="relative min-h-screen overflow-hidden">
       <video
@@ -109,6 +112,7 @@ export function Hero() {
               animate="visible"
               whileHover={{ scale: 1.04, filter: "brightness(1.1)" }}
               whileTap={{ scale: 0.96 }}
+              onClick={() => router.push("/login")}
               className="mt-10 flex items-center text-white bg-[#7342E2]"
               style={{
                 borderRadius: "50px",
